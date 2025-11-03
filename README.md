@@ -10,10 +10,10 @@ In each directory is a different theme along with information for that theme.
 
 This is for FaxStore. find more details on FaxStore below.
 
-- Link: https://faxes.zone/store/faxstore
+- Link: https://weblutions.com/store/faxstore
 - Discord: discord.gg/faxes
-- My site: https://faxes.zone
-- Terms of Service: https://faxes.zone/tos
+- My site: https://weblutions.com
+- Terms of Service: https://weblutions.com/tos
 
 # Installation
 
