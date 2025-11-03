@@ -1,1 +1,231 @@
+<%
+	let authArr = siteInfo.loginTypes.split(",");
+	var unreadNotis = userInfo.notis.filter(e => e.hidden == 0) || [];
+%>
+<head>
+	<title><%= onlyTitle ? siteInfo.sitename : (title + ' - ' + siteInfo.sitename) %></title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+	<meta name="description" content="<%= headDesc ?? siteInfo.sitedesc %>" />
+	<meta property="og:site_name" content="<%= siteInfo.sitename %>" />
+	<meta property="og:title" content="<%= title %>" />
+	<meta property="og:type" content="website" />
+	<meta property="og:description" content="<%= headDesc ?? siteInfo.sitedesc %>" />
+	<meta name="theme-color" content="<%= siteInfo.themecolor %>">
 
+	<% if(typeof img == "object" && img !== null) { %>
+		<meta name="twitter:card" content="summary_large_image">
+		<% img.forEach(function(i, ind) { if(ind > 4) return; %>
+			<meta property="og:image" content="<%= i %>">
+			<meta property="twitter:image" content="<%= i %>">
+		<% }); %>
+	<% } else if(img) { %>
+		<meta name="twitter:card" content="summary_large_image">
+		<meta property="og:image" content="<%= img %>">
+		<meta property="twitter:image" content="<%= img %>">
+	<% } else if(siteInfo.ogimageToggle && siteInfo.ogimage) { %>
+		<meta name="twitter:card" content="summary_large_image">
+		<meta property="og:image" content="<%= siteInfo.ogimage %>">
+		<meta property="twitter:image" content="<%= siteInfo.ogimage %>">
+	<% } else { %>
+		<meta name="twitter:card" content="summary">
+		<meta property="og:image" content="<%= siteInfo.siteLogo %>">
+	<% } %>
+
+	<link href="https://fonts.googleapis.com/css2?family=Exo:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/assets/min/lib.min.css">
+	<link rel="stylesheet" href="/assets/min/main.min.css">
+	<link rel="stylesheet" href="/assets/colors.css">
+	<script src="/assets/min/lib.min.js"></script>
+	<script src="/assets/min/fa.min.js"></script>
+	
+	<link rel="icon" href="<%= siteInfo.siteLogo %>" />
+	<style>
+		body {
+			background: #000;
+			color: #fff;
+			font-family: 'Exo', sans-serif;
+		}
+		header {
+			backdrop-filter: blur(12px);
+			background: rgba(0,0,0,0.45);
+			border-bottom: 1px solid rgba(255,255,255,0.1);
+			box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+		}
+		header a, .headerButton {
+			color: #bbb;
+			text-decoration: none;
+			transition: all 0.25s ease;
+			text-shadow: 0 0 6px rgba(255,255,255,0.15);
+		}
+		header a:hover, .headerButton:hover {
+			color: #fff;
+			text-shadow: 0 0 10px rgba(255,255,255,0.6);
+		}
+		.dropdown-content {
+			background: rgba(25,25,25,0.9);
+			border: 1px solid rgba(255,255,255,0.1);
+			border-radius: 8px;
+			box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+			display: none;
+			position: absolute;
+			z-index: 20;
+		}
+		.dropdown:hover .dropdown-content {
+			display: block;
+		}
+		.dropdown-content a {
+			display: block;
+			padding: 8px 16px;
+			color: #bbb;
+		}
+		.dropdown-content a:hover {
+			background: rgba(255,255,255,0.1);
+			color: #fff;
+		}
+		.enableMobile {
+			backdrop-filter: blur(10px);
+			background: rgba(0,0,0,0.75);
+			border-top: 1px solid rgba(255,255,255,0.1);
+		}
+		#mobileNavMenu {
+			backdrop-filter: blur(12px);
+			background: rgba(0,0,0,0.9);
+		}
+		#mobileNavMenu a {
+			text-decoration: none;
+			color: #ccc;
+			transition: 0.25s;
+		}
+		#mobileNavMenu a:hover {
+			color: #fff;
+			text-shadow: 0 0 10px rgba(255,255,255,0.5);
+		}
+		.glow-text {
+			font-size: 1.25rem;
+			font-weight: 600;
+			margin-left: 8px;
+			color: #ffffff;
+			text-shadow:
+				0 0 6px rgba(0,200,255,0.7),
+				0 0 12px rgba(0,150,255,0.6),
+				0 0 20px rgba(0,150,255,0.5);
+			animation: pulseGlow 2.5s ease-in-out infinite alternate;
+		}
+		@keyframes pulseGlow {
+			0% { text-shadow: 0 0 6px rgba(0,200,255,0.7), 0 0 12px rgba(0,150,255,0.6); }
+			100% { text-shadow: 0 0 10px rgba(0,220,255,0.9), 0 0 25px rgba(0,180,255,0.7); }
+		}
+	</style>
+
+	<% if(siteInfo.googleanalytics) { %>
+		<script async src="https://www.googletagmanager.com/gtag/js?id=<%= siteInfo.googleanalytics %>"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', '<%= siteInfo.googleanalytics %>');
+		</script>
+	<% } %>
+	<% if(siteInfo.theme) { %>
+		<link rel="stylesheet" href="/themes/<%= siteInfo.theme %>">
+	<% } %>
+</head>
+
+<body>
+<script src="/assets/min/main.min.js"></script>
+
+<% if(siteInfo.banner && !userInfo.hidebar) { %>
+	<div class="block bg-blue-600/80 py-2 text-center relative text-white backdrop-blur-sm">
+		<p class="inline m-0"><%- siteInfo.banner %></p>
+		<a href="/hidenotibar" class="absolute right-4 top-1 hover:text-gray-200"><i class="fa-solid fa-x"></i></a>
+	</div>
+<% } %>
+
+<% if(!userInfo.verified) { %>
+	<div class="block bg-red-600/80 py-2 text-center text-white backdrop-blur-sm">
+		<p class="inline m-0">Check your email to verify your account. [<a href="/verify/resend" class="underline hover:text-gray-200">Resend</a>]</p>
+	</div>
+<% } %>
+
+<header class="flex p-2 items-center justify-center">
+	<div class="flex-20 flex justify-center items-center">
+		<a href="/" class="flex items-center">
+			<img src="<%= siteInfo.siteLogo %>" alt="<%= siteInfo.sitename %> Logo" class="w-6" />
+			<span class="glow-text"><%= siteInfo.sitename %></span>
+		</a>
+	</div>
+	<div class="flex-60 flex justify-center flex-wrap">
+		<% var splittedDetails = JSON.parse(siteInfo.header);
+		splittedDetails.forEach(function(e) { 
+			if(e.drop.length > 0) { %>
+				<div class="dropdown mx-2">
+					<a href="<%= e.link %>"><%= e.name %></a>
+					<div class="dropdown-content backdrop-blur-4 mt-1">
+						<% e.drop.forEach(function(ele) { %>
+							<a href="<%= ele.link %>"><%= ele.name %></a>
+						<% }); %>
+					</div>
+				</div>
+			<% } else { %>
+				<a href="<%= e.link %>" class="headerButton mx-2"><%= e.name %></a>
+			<% }
+		}); %>
+	</div>
+	<div class="flex-20 flex justify-center flex-wrap">
+		<% if(userInfo.loggedIn) { %>
+			<div class="dropdown mx-2">
+				<a href="/user/<%= userInfo.id %>">
+					<i class="<%= userInfo.authType == 'local' ? 'fa-solid fa-user' : 'fa-brands fa-'+userInfo.authType %>"></i> <%= userInfo.username %>
+				</a>
+				<div class="dropdown-content right-0 mt-1">
+					<a href="/user/<%= userInfo.id %>/settings">Settings</a>
+					<a href="/logout">Logout</a>
+				</div>
+			</div>
+			<a href="/cart" class="headerButton mx-2"><i class="fa-solid fa-cart-shopping"></i> Cart <% if(userInfo.cart.length > 0) { %>(<%= userInfo.cart.length %>)<% } %></a>
+			<% if(hasPermission(userInfo, 'VIEW_STAFF_PANEL')) { %>
+				<a href="/staff" class="headerButton mx-2"><i class="fa-solid fa-shield-keyhole"></i> Staff</a>
+			<% } %>
+		<% } else { %>
+			<a href="/login" class="headerButton mx-2"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+		<% } %>
+	</div>
+</header>
+
+<div class="none enableMobile fixed bottom-0 p-1 w-100 z-10">
+	<div class="flex justify-center items-center text-center">
+		<a class="flex-auto" href="/"><i class="fa-solid fa-house fa-lg"></i></a>
+		<a class="flex-auto" onclick="toggleMobileMenu()"><i class="fa-solid fa-bars fa-lg"></i></a>
+		<a class="flex-auto" href="/cart"><i class="fa-solid fa-cart-shopping fa-lg"></i></a>
+		<% if(userInfo.loggedIn) { %>
+			<a class="flex-auto" href="/user"><i class="fa-solid fa-user fa-lg"></i></a>
+		<% } else { %>
+			<a class="flex-auto" href="/login"><i class="fa-solid fa-right-to-bracket fa-lg"></i></a>
+		<% } %>
+		<% if(hasPermission(userInfo, 'VIEW_STAFF_PANEL')) { %>
+			<a class="flex-auto" href="/staff"><i class="fa-solid fa-shield-keyhole fa-lg"></i></a>
+		<% } %>
+	</div>
+</div>
+
+ <div id="mobileNavMenu" class="none fixed top-0 w-100 h-100 p-4 z-50">
+	<div class="flex justify-between items-center mb-3">
+		<div class="flex items-center">
+			<img src="/images/user-<%= userInfo.id %>.png" class="w-8 h-8 rounded-full mr-2">
+			<h3 class="m-0"><%= userInfo.username %></h3>
+		</div>
+		<a onclick="toggleMobileMenu()" class="text-right block"><i class="fa-solid fa-xmark fa-lg"></i></a>
+	</div>
+	<hr class="my-1">
+	<% splittedDetails.forEach(function(e) { 
+		if(e.drop.length > 0) { %>
+			<a href="<%= e.link %>" class="block text-large my-05"><%= e.name %></a>
+			<% e.drop.forEach(function(ele) { %>
+				<a href="<%= ele.link %>" class="block text-large pl-2 my-025 text-gray-400"><%= ele.name %></a>
+			<% }); %>
+		<% } else { %>
+			<a href="<%= e.link %>" class="block text-large my-05"><%= e.name %></a>
+		<% }
+	}); %>
+</div>
