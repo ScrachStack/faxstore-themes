@@ -15,4 +15,5 @@ https://syncstudio.org/
 
 Theme created by [ScrachStack](https://github.com/ScrachStack).
 
-*This is a theme for [FaxStore](https://weblutions.com/) The above creator accepts no liability.*
+> *This is a theme for [FaxStore](https://weblutions.com/) The above creator accepts no liability.*
+
