@@ -1,0 +1,378 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <%- include('../_header/'+siteInfo.posheader, {
+    title: 'Cart',
+    img: null,
+    siteInfo: siteInfo,
+    userInfo: userInfo,
+    onlyTitle: false,
+    headDesc: null
+  }); %>
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <style>
+    body {
+      background: #000;
+      color: #fff;
+      font-family: 'Exo', sans-serif;
+    }
+
+    header, .page-header, .hero-section {
+      padding: 25px 0 !important;
+      min-height: unset !important;
+    }
+
+    section {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 25px;
+    }
+
+    .flex {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 40px;
+    }
+
+    .flex-60 { flex: 0 0 63%; }
+    .flex-40 { flex: 0 0 37%; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(18, 18, 18, 0.85);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      overflow: hidden;
+      table-layout: fixed;
+    }
+
+    td {
+  padding: 20px 20px;
+  color: #ccc;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  vertical-align: middle; 
+}
+td a strong, td span, td .material-icons {
+  display: inline-block;
+  margin-top: 6px; 
+}
+footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px 0;
+}
+
+footer .social-icons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+footer .social-icons a {
+  color: #aaa;
+  font-size: 20px;
+  transition: color 0.2s ease;
+}
+
+footer .social-icons a:hover {
+  color: #fff;
+}
+
+
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,0.04); }
+
+    td:first-child {
+      width: 160px;
+      text-align: center;
+      padding-left: 10px;
+    }
+
+    td:nth-child(2) {
+      width: 58%;
+      padding-left: 20px;
+    }
+
+    td:nth-child(3) {
+      width: 15%;
+      text-align: right;
+      padding-right: 20px;
+      white-space: nowrap;
+    }
+
+    td:last-child {
+      width: 8%;
+      text-align: center;
+      padding-right: 20px;
+    }
+
+    img {
+      border-radius: 8px;
+      object-fit: cover;
+      width: 125px;
+      height: 120px;
+      display: block;
+      margin: 0 auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.6);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    img:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 15px rgba(255,255,255,0.1);
+    }
+
+    td a {
+      color: #5ba8ff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.25s ease;
+    }
+
+    td a:hover { color: #89c4ff; }
+
+    .material-icons {
+      color: #6eb8ff;
+      font-size: 23px;
+      vertical-align: middle;
+      cursor: pointer;
+      transition: color 0.2s ease, transform 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .material-icons:hover {
+      color: #ff4d4d;
+      transform: scale(1.15);
+    }
+
+    .checkout-box {
+    color: white;
+    width: 100%;
+    background: rgba(20, 20, 20, 0.9);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    position: relative;
+    top: 80px;
+    left: 60px;
+}
+.checkout-box span {
+    color: rgb(231, 217, 217);
+    text-shadow: 0 0 8px rgba(255,255,255,0.2);
+    font-size: 25px;
+      font-weight: 700;
+
+}
+
+    .checkout-box h2 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+      text-shadow: 0 0 8px rgba(255,255,255,0.2);
+    }
+
+   
+
+    .checkout-box input,
+    .checkout-box button {
+      width: 100%;
+      padding: 10px 12px;
+      border: none;
+      border-radius: 6px;
+      margin-top: 10px;
+      font-size: 1rem;
+    }
+
+    input[type="text"] {
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      outline: none;
+    }
+
+    input[type="text"]:focus {
+      background: rgba(255,255,255,0.1);
+      box-shadow: 0 0 8px rgba(255,255,255,0.1);
+    }
+
+
+    button {
+      cursor: pointer;
+      color: #fff;
+      background: linear-gradient(90deg, #007bff, #0056ff);
+      font-weight: 600;
+      transition: all 0.25s ease;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    button:hover {
+      filter: brightness(1.15);
+      transform: translateY(-1px);
+    }
+
+    code {
+      background: rgba(255,255,255,0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .flex { flex-direction: column; gap: 20px; }
+      .checkout-box { position: static; width: 100%; top: 0; left: 0; }
+      img { width: 100px; height: 100px; }
+    }
+  </style>
+
+  <section>
+    <div class="flex mob:flex-column">
+      <div class="flex-60">
+        <table>
+          <tbody>
+            <% var subPrice = 0; var needAddy = false, needign = false;
+            if (storeItems) {
+              userInfo.cart.forEach(function(elementCart) {
+                let storeItem = storeItems.find(element =>
+                  element.id == elementCart?.split('pack:')[0]?.split('note:')[0]?.split('tebx:')[0]
+                );
+                if (!storeItem) return;
+                let pack = packages?.find(ep => ep.id == elementCart?.split('pack:')[1]) || null;
+                if (storeItem.itemType == 4) needAddy = true;
+                if (pack?.price) {
+                  subPrice += Number(pack.price);
+                } else subPrice += Number(storeItem.salePrice || storeItem.price); %>
+                <tr>
+                  <td><img src="<%= storeItem.featureImage %>" alt="<%= storeItem.title %>"></td>
+                  <td>
+                    <a href="/store/<%= storeItem.urlId %>"><strong><%= storeItem.title %></strong></a>
+                    <% if (elementCart?.includes('pack:')) { %>
+                      <br><i><%= pack?.title %></i>
+                    <% }
+                    if (elementCart?.includes('tebx:')) { needign = true; %>
+                      <br><i><%= elementCart?.split('tebx:')[1] %></i>
+                    <% }
+                    if (elementCart?.includes('note:')) { %>
+                      <br><i><%= elementCart?.split('note:')[1] %></i>
+                    <% } %>
+                  </td>
+                  <td>
+                    <% if (elementCart?.includes('pack:')) { %>
+                      <span><%= siteInfo.currency %><%= pack.price %></span>
+                    <% } else { %>
+                      <span><%= siteInfo.currency %><%- storeItem.salePrice
+                        ? '<s>'+storeItem.price+'</s> '+storeItem.salePrice
+                        : storeItem.price %></span>
+                    <% } %>
+                  </td>
+                  <td>
+                    <a href="/removecart/<%= elementCart %>" title="Remove item">
+                      <span class="material-icons">delete</span>
+                    </a>
+                  </td>
+                </tr>
+              <% }); } %>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="flex-40 checkout-box">
+        <h2>Checkout</h2>
+        <% if(error) { %>
+          <p style="color: #DC3545;"><%= error %></p>
+        <% } %>
+        <% if(success) { %>
+          <p style="color: #35dc6d;"><%= success %></p>
+        <% } %>
+
+        <p>
+          <span>Subtotal: <%= siteInfo.currency %><%= subPrice.toFixed(2) %></span><br>
+          <% if(userInfo.promoCode[0]) {
+            if(userInfo.promoCode[1].startsWith('-')) {
+              var sortedDiscount = subPrice - Number(userInfo.promoCode[1].replace('-', ''));
+              subPrice = sortedDiscount < 0 ? 0 : sortedDiscount;
+            } else {
+              var sortedDiscount = subPrice * ((100-userInfo.promoCode[1]) / 100);
+              subPrice = sortedDiscount < 0 ? 0 : sortedDiscount;
+            }
+            if(userInfo.promoCode[1].startsWith('-')) { %>
+              <span>Gift Card: <%= userInfo.promoCode[1] %> off</span><br>
+            <% } else { %>
+              <span>Discount Code: <code><%= userInfo.promoCode[0] %></code> <%= userInfo.promoCode[1] %>% off</span><br>
+            <% } 
+          } %>
+          <% if(siteInfo.salesTax) { 
+            let salesTax = siteInfo.salesTax.includes('%') ? calculatePercentage(Number(siteInfo.salesTax.replace('%', '')), subPrice) : Number(siteInfo.salesTax).toFixed(2); %>
+            <span>Tax: <%= siteInfo.currency %><%= salesTax %></span><br>
+          <% subPrice = subPrice + parseFloat(salesTax); } %>
+          <br>
+          <span><strong>Total:</strong> <%= siteInfo.currency %><%= subPrice.toFixed(2) %></span>
+        </p>
+
+        <form enctype="multipart/form-data" class="flex items-center gap-2" method="post" action="/backend/cart/addpromo" autocomplete="off">
+          <input type="text" name="discountcode" placeholder="Discount / Gift Code" maxlength="256" required>
+          <button type="submit">Add</button>
+        </form>
+
+        <% if(userInfo.cart.length > 0) { %>
+          <form enctype="multipart/form-data" method="post" action="/backend/paycart?type=paypal" class="mt-3">
+            <% if(needAddy) { %>
+              <input type="text" name="firstname" placeholder="First name" required>
+              <input type="text" name="lastname" placeholder="Last name" required>
+              <input type="text" name="address" placeholder="Address" required>
+              <div class="flex gap-2">
+                <input type="text" name="city" placeholder="City" required>
+                <input type="text" name="state" placeholder="State" required>
+              </div>
+              <div class="flex gap-2">
+                <input type="text" name="country" placeholder="Country" required>
+                <input type="text" name="postcode" placeholder="Post code" required>
+              </div>
+            <% } %>
+
+            <% if(needign) { %>
+              <input type="text" name="fivemign" placeholder="Cfx.re Username" value="<%= userInfo.tebexUsername || '' %>" required>
+            <% } %>
+
+            <label class="checkmarkCont" for="toscheckbox">
+                <input type="checkbox" name="toscheckbox" id="toscheckbox" value="true" required>
+                <span>I agree to the
+                  <a href="/tos" class="color[hyperlink] hover:color[hyperlinkHover]" target="_blank">Terms of Service / Use</a>
+                </span>
+              </label>
+              
+
+            <p class="color[dangerBorder] my-1" style="display:none;" id="tosFailedDiv">Please agree to the Terms before continuing.</p>
+
+            <% if(useConfig.usePayPal) { %>
+              <button onclick="verifyCheckoutForm()" formaction="/backend/paycart?type=paypal" type="submit">
+                <i class="fa-brands fa-cc-paypal"></i> Checkout with PayPal
+              </button>
+            <% } %>
+            <% if(useConfig.useStripe) { %>
+              <button onclick="verifyCheckoutForm()" formaction="/backend/paycart?type=stripe" type="submit">
+                <i class="fa-brands fa-cc-stripe"></i> Pay with Card
+              </button>
+            <% } %>
+            <% if(useConfig.useSquare) { %>
+              <button onclick="verifyCheckoutForm()" formaction="/backend/paycart?type=square" type="submit">
+                <i class="fa-solid fa-credit-card"></i> Pay with Square
+              </button>
+            <% } %>
+          </form>
+        <% } %>
+      </div>
+    </div>
+  </section>
+
+  <%- include('../_footer/'+siteInfo.posfooter, {siteInfo: siteInfo, userInfo: userInfo}); %>
+</html>
