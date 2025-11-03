@@ -1,5 +1,7 @@
 # Eclipse Wave
 
+> Tested on V3.1.1
+
 A Dark Vibe theme for FaxStore.
 
 ---
